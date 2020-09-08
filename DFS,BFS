@@ -1,0 +1,136 @@
+
+// Printing Depth First Search Traversal of the Graph...(Connected and Disconnected)
+//Printing Breadth First Search Traversal of the Graph...(Connected and Disconnected)
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+public class Main{
+    //BFS
+    //Number of Vertices
+    int totalvertices;
+    //Adjacency List
+    LinkedList<Integer> adjList[];
+    
+    //Constructor.........
+    Main(int v){
+        totalvertices=v;
+        adjList=new LinkedList[v];
+        for(int i=0;i<v;i++){
+            adjList[i]=new LinkedList();
+        }
+    }
+    
+    //Adding Edges to graph
+    public void addEdge(int v,int w){
+        adjList[v].add(w);
+    }
+    
+    // Depth First Search Traversal For Connected Directed Graph
+    //From a given vertix "v".
+    public void DFS(int v){
+        boolean visited[]=new boolean[totalvertices];
+        DFSUntil(v,visited);
+    }
+    
+    // Depth First Search Traversal For DisConnected Directed Graph
+    public void DFSforDisconnected(){
+        boolean visited[]=new boolean[totalvertices];
+        for(int i=0;i<totalvertices;i++){
+            if(visited[i]==false){
+                DFSUntil(i,visited);
+            }
+        }
+       
+    }
+    
+    public void DFSUntil(int v,boolean visited[]){
+        
+        visited[v]=true;
+        System.out.print(v+" ");
+        
+        Iterator<Integer> i=adjList[v].listIterator();
+        while(i.hasNext()){
+            int val=i.next();
+            if(visited[val]!=true){
+                 DFSUntil(val,visited);
+            }
+        }
+        
+        
+    }
+    
+    //Breadth First Search Traversal of a Graph from vertix s..
+    public void BFS(int s){
+        boolean visited[]=new boolean[totalvertices];
+        
+                BFSUntil(s,visited);
+    }
+    
+    //Breadth First Search Traversal of a DisConnected Graph..
+    public void BFSforDiconnected(){
+        boolean visited[]=new boolean[totalvertices];
+        for(int i=0;i<totalvertices;i++){
+            if(visited[i]==false){
+                BFSUntil(i,visited);
+            }
+        }
+    }
+    
+    public void BFSUntil(int s,boolean visited[]){
+        
+        LinkedList<Integer> queue=new LinkedList<Integer>();
+        
+        visited[s]=true;
+        queue.add(s);
+        
+        while(queue.size()!=0){
+            int val=queue.poll();
+            System.out.print(val+" ");
+            
+            Iterator<Integer> i=adjList[val].listIterator();
+            
+            while(i.hasNext()){
+                int n=i.next();
+                if(visited[n]!=true){
+                    queue.add(n);
+                    visited[n]=true;
+                }
+                
+            }
+        }
+    }
+    
+    
+    
+    public static void main(String args[]){
+        
+        Main g=new Main(5);
+        g.addEdge(0, 1); 
+        g.addEdge(0, 2); 
+        g.addEdge(1, 2); 
+        g.addEdge(2, 0); 
+        g.addEdge(2, 3); 
+        g.addEdge(3, 3); 
+        g.addEdge(0, 4); 
+  
+      System.out.println("Depth First Search Traversal of given Graph:");
+      g.DFS(0);
+      System.out.println(); 
+      
+       System.out.println("Depth First Search Traversal of given Disconnected Graph:");
+      g.DFSforDisconnected();
+      System.out.println();
+      
+      System.out.println("Breadth First Search Traversal of given Graph:");
+      g.BFS(0);
+      System.out.println();
+      
+      System.out.println("Breadth First Search Traversal of given DiconnectedGraph:");
+      g.BFSforDiconnected();
+      
+      
+        
+    }
+}
